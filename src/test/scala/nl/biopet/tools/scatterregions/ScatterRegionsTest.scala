@@ -21,6 +21,9 @@
 
 package nl.biopet.tools.scatterregions
 
+import java.io.File
+
+import nl.biopet.utils.ngs.intervals.{BedRecord, BedRecordList}
 import nl.biopet.utils.test.tools.ToolTest
 import org.testng.annotations.Test
 
@@ -31,5 +34,85 @@ class ScatterRegionsTest extends ToolTest[Args] {
     intercept[IllegalArgumentException] {
       ScatterRegions.main(Array())
     }
+  }
+
+  @Test
+  def testDefault(): Unit = {
+    val outputDir = File.createTempFile("scatter.", ".test")
+    outputDir.delete()
+    outputDir.mkdir()
+    ScatterRegions.main(
+      Array("-R",
+            resourcePath("/fake_chrQ.fa"),
+            "-o",
+            outputDir.getAbsolutePath))
+    val files = outputDir.list().map(new File(outputDir, _))
+    files.length shouldBe 1
+    files.map(BedRecordList.fromFile(_).length).sum shouldBe 16571
+  }
+
+  @Test
+  def testScatterSize(): Unit = {
+    val outputDir = File.createTempFile("scatter.", ".test")
+    outputDir.delete()
+    outputDir.mkdir()
+    ScatterRegions.main(
+      Array("-R",
+            resourcePath("/fake_chrQ.fa"),
+            "-o",
+            outputDir.getAbsolutePath,
+            "-s",
+            "1000"))
+    val files = outputDir.list().map(new File(outputDir, _))
+    files.length shouldBe 16
+    files.map(BedRecordList.fromFile(_).length).sum shouldBe 16571
+  }
+
+  @Test
+  def testRegionsScatterSize(): Unit = {
+    val bedFile = File.createTempFile("test.", ".bed")
+    bedFile.deleteOnExit()
+    BedRecordList
+      .fromList(List(BedRecord("chrQ", 0, 2000), BedRecord("chrQ", 5000, 7000)))
+      .writeToFile(bedFile)
+
+    val outputDir = File.createTempFile("scatter.", ".test")
+    outputDir.delete()
+    outputDir.mkdir()
+    ScatterRegions.main(
+      Array("-R",
+            resourcePath("/fake_chrQ.fa"),
+            "-o",
+            outputDir.getAbsolutePath,
+            "-s",
+            "1000",
+            "-L",
+            bedFile.getAbsolutePath))
+    val files = outputDir.list().map(new File(outputDir, _))
+    files.length shouldBe 4
+    files.map(BedRecordList.fromFile(_).length).sum shouldBe 4000
+  }
+
+  @Test
+  def testRegionsInput(): Unit = {
+    val bedFile = File.createTempFile("test.", ".bed")
+    bedFile.deleteOnExit()
+    BedRecordList
+      .fromList(List(BedRecord("chrQ", 0, 2000), BedRecord("chrQ", 5000, 7000)))
+      .writeToFile(bedFile)
+
+    val outputDir = File.createTempFile("scatter.", ".test")
+    outputDir.delete()
+    outputDir.mkdir()
+    ScatterRegions.main(
+      Array("-R",
+            resourcePath("/fake_chrQ.fa"),
+            "-o",
+            outputDir.getAbsolutePath,
+            "-L",
+            bedFile.getAbsolutePath))
+    val files = outputDir.list().map(new File(outputDir, _))
+    files.length shouldBe 1
+    files.map(BedRecordList.fromFile(_).length).sum shouldBe 4000
   }
 }

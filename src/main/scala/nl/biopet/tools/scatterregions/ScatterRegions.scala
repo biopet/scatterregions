@@ -38,32 +38,41 @@ object ScatterRegions extends ToolCommand[Args] {
     val cmdArgs = cmdArrayToArgs(args)
 
     logger.info("Start")
+    scatterRegions(cmdArgs.referenceFasta,
+                   cmdArgs.outputDir,
+                   cmdArgs.scatterSize,
+                   cmdArgs.inputRegions,
+                   cmdArgs.combineContigs,
+                   cmdArgs.maxContigsInScatterJob)
+    logger.info("Done")
+  }
 
-    val regions = cmdArgs.inputRegions match {
+  def scatterRegions(referenceFasta: File,
+                     outputDir: File,
+                     scatterSize: Int,
+                     bedFile: Option[File] = None,
+                     combineContigs: Boolean = true,
+                     maxContigsInScatterJob: Option[Int] = None): Unit = {
+    val regions = bedFile match {
       case Some(file) =>
         BedRecordList
           .fromFile(file)
           .sorted
-          .validateContigs(cmdArgs.referenceFasta)
-      case _ => BedRecordList.fromReference(cmdArgs.referenceFasta)
+          .validateContigs(referenceFasta)
+      case _ => BedRecordList.fromReference(referenceFasta)
     }
 
-    val scatters = regions.scatter(cmdArgs.scatterSize,
-                                   cmdArgs.combineContigs,
-                                   cmdArgs.maxContigsInScatterJob)
+    val scatters =
+      regions.scatter(scatterSize, combineContigs, maxContigsInScatterJob)
 
     val futures = scatters.zipWithIndex.map {
       case (list, idx) =>
         Future {
           val bedRecords = BedRecordList.fromList(list).sorted
-          bedRecords.writeToFile(
-            new File(cmdArgs.outputDir, s"scatter-$idx.bed"))
+          bedRecords.writeToFile(new File(outputDir, s"scatter-$idx.bed"))
         }
     }
-
     Await.result(Future.sequence(futures), Duration.Inf)
-
-    logger.info("Done")
   }
 
   def descriptionText: String =

@@ -59,6 +59,7 @@ object ScatterRegions extends ToolCommand[Args] {
           .fromFile(file)
           .sorted
           .validateContigs(referenceFasta)
+          .combineOverlap
       case _ => BedRecordList.fromReference(referenceFasta)
     }
 

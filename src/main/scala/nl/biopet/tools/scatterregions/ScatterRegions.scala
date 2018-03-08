@@ -21,7 +21,14 @@
 
 package nl.biopet.tools.scatterregions
 
+import java.io.File
+
+import nl.biopet.utils.ngs.intervals.BedRecordList
 import nl.biopet.utils.tool.ToolCommand
+
+import scala.concurrent.duration.Duration
+import scala.concurrent.{Await, Future}
+import scala.concurrent.ExecutionContext.Implicits.global
 
 object ScatterRegions extends ToolCommand[Args] {
   def emptyArgs = Args()
@@ -32,23 +39,51 @@ object ScatterRegions extends ToolCommand[Args] {
 
     logger.info("Start")
 
-    //TODO: Execute code
+    val regions = cmdArgs.inputRegions match {
+      case Some(file) =>
+        BedRecordList
+          .fromFile(file)
+          .sorted
+          .validateContigs(cmdArgs.referenceFasta)
+      case _ => BedRecordList.fromReference(cmdArgs.referenceFasta)
+    }
+
+    val scatters = regions.scatter(cmdArgs.scatterSize,
+                                   cmdArgs.combineContigs,
+                                   cmdArgs.maxContigsInScatterJob)
+
+    val futures = scatters.zipWithIndex.map {
+      case (list, idx) =>
+        Future {
+          val bedRecords = BedRecordList.fromList(list).sorted
+          bedRecords.writeToFile(
+            new File(cmdArgs.outputDir, s"scatter-$idx.bed"))
+        }
+    }
+
+    Await.result(Future.sequence(futures), Duration.Inf)
 
     logger.info("Done")
   }
 
   def descriptionText: String =
     """
-      |
+      |This tool breaks a reference or bed file into smaller scatter regions of equal size. This can be used for processing inside a pipeline.
     """.stripMargin
 
   def manualText: String =
     s"""
-      |
+      |This always require a reference fasta with a dict file next to it.
+      |If the a bed file is supplied the tool will validate this file to the given reference.
     """.stripMargin
 
   def exampleText: String =
-    """
+    s"""
+      |Default run:
+      |${example("-R", "reference fasta", "-o", "<output dir>")}
+      |
+      |With scatter size:
+      |${example("-R", "reference fasta", "-o", "<output dir>", "-s", "5000000")}
       |
     """.stripMargin
 }

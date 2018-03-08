@@ -1,7 +1,7 @@
 # ScatterRegions
 
 
-
+This tool breaks a reference or bed file into smaller scatter regions of equal size. This can be used for processing inside a pipeline.
     
 
 # Documentation

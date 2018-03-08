@@ -27,11 +27,26 @@ import nl.biopet.utils.tool.{AbstractOptParser, ToolCommand}
 
 class ArgsParser(toolCommand: ToolCommand[Args])
     extends AbstractOptParser[Args](toolCommand) {
-  opt[File]("inputFile")
-    .abbr("i")
-    .unbounded()
+  opt[File]('o', "outputDir")
     .required()
-    .maxOccurs(1)
-    .action((x, c) => c.copy(inputFile = x))
-    .text("NonEmptyDescription")
+    .action((x, c) => c.copy(outputDir = x))
+    .text("Output directory")
+  opt[File]('R', "referenceFasta")
+    .required()
+    .action((x, c) => c.copy(referenceFasta = x))
+    .text("Reference fasta file, (dict file should be next to it)")
+  opt[Int]('s', "scatterSize")
+    .action((x, c) => c.copy(scatterSize = x))
+    .text(
+      s"Approximately scatter size, tool will make all scatters the same size. default = ${Args().scatterSize}")
+  opt[File]('L', "regions")
+    .action((x, c) => c.copy(inputRegions = Some(x)))
+    .text(
+      "If given only regions in the given bed file will be used for scattering")
+  opt[Unit]("notCombineContigs")
+    .action((_, c) => c.copy(combineContigs = false))
+    .text("If set each scatter can only contain 1 contig")
+  opt[Int]("maxContigsInScatterJob")
+    .action((x, c) => c.copy(maxContigsInScatterJob = Some(x)))
+    .text("If set each scatter can only contain 1 contig")
 }

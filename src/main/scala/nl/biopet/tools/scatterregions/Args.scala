@@ -23,4 +23,9 @@ package nl.biopet.tools.scatterregions
 
 import java.io.File
 
-case class Args(inputFile: File = null)
+case class Args(outputDir: File = null,
+                referenceFasta: File = null,
+                scatterSize: Int = 1000000,
+                inputRegions: Option[File] = None,
+                combineContigs: Boolean = true,
+                maxContigsInScatterJob: Option[Int] = None)

@@ -115,4 +115,31 @@ class ScatterRegionsTest extends ToolTest[Args] {
     files.length shouldBe 1
     files.map(BedRecordList.fromFile(_).length).sum shouldBe 4000
   }
+
+  @Test
+  def testRegionsOverlap(): Unit = {
+    val bedFile = File.createTempFile("test.", ".bed")
+    bedFile.deleteOnExit()
+    BedRecordList
+      .fromList(
+        List(BedRecord("chrQ", 0, 1000),
+             BedRecord("chrQ", 500, 1500),
+             BedRecord("chrQ", 1000, 2000),
+             BedRecord("chrQ", 5000, 7000)))
+      .writeToFile(bedFile)
+
+    val outputDir = File.createTempFile("scatter.", ".test")
+    outputDir.delete()
+    outputDir.mkdir()
+    ScatterRegions.main(
+      Array("-R",
+            resourcePath("/fake_chrQ.fa"),
+            "-o",
+            outputDir.getAbsolutePath,
+            "-L",
+            bedFile.getAbsolutePath))
+    val files = outputDir.list().map(new File(outputDir, _))
+    files.length shouldBe 1
+    files.map(BedRecordList.fromFile(_).length).sum shouldBe 4000
+  }
 }

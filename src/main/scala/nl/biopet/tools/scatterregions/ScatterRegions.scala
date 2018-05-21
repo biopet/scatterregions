@@ -23,12 +23,15 @@ package nl.biopet.tools.scatterregions
 
 import java.io.File
 
+import nl.biopet.utils.ngs.fasta
 import nl.biopet.utils.ngs.intervals.BedRecordList
 import nl.biopet.utils.tool.ToolCommand
 
 import scala.concurrent.duration.Duration
 import scala.concurrent.{Await, Future}
 import scala.concurrent.ExecutionContext.Implicits.global
+
+import htsjdk.samtools.SAMSequenceDictionary
 
 object ScatterRegions extends ToolCommand[Args] {
   def emptyArgs = Args()
@@ -62,9 +65,12 @@ object ScatterRegions extends ToolCommand[Args] {
           .combineOverlap
       case _ => BedRecordList.fromReference(referenceFasta)
     }
-
+    val dict: SAMSequenceDictionary = fasta.getCachedDict(referenceFasta)
     val scatters =
-      regions.scatter(scatterSize, combineContigs, maxContigsInScatterJob)
+      regions.scatter(scatterSize,
+                      combineContigs,
+                      maxContigsInScatterJob,
+                      Option(dict))
 
     val futures = scatters.zipWithIndex.map {
       case (list, idx) =>

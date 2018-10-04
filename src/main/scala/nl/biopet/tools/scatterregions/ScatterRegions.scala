@@ -70,9 +70,6 @@ object ScatterRegions extends ToolCommand[Args] {
       case _ => BedRecordList.fromReference(referenceFasta)
     }
     val dict: SAMSequenceDictionary = fasta.getCachedDict(referenceFasta)
-    bamFile match {
-      case _ =>
-    }
     val scatters = bamFile match {
       case Some(file) =>
         bamScatter(file, regions, scatterSize, combineContigs, dict)

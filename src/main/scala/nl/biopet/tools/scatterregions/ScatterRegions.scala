@@ -24,13 +24,13 @@ package nl.biopet.tools.scatterregions
 import java.io.File
 
 import nl.biopet.utils.ngs.fasta
-import nl.biopet.utils.ngs.intervals.BedRecordList
+import nl.biopet.utils.ngs.bam.{IndexScattering, getDictFromBam, BiopetSamDict}
+import nl.biopet.utils.ngs.intervals.{BedRecord, BedRecordList}
 import nl.biopet.utils.tool.ToolCommand
 
 import scala.concurrent.duration.Duration
 import scala.concurrent.{Await, Future}
 import scala.concurrent.ExecutionContext.Implicits.global
-
 import htsjdk.samtools.SAMSequenceDictionary
 
 object ScatterRegions extends ToolCommand[Args] {
@@ -41,12 +41,15 @@ object ScatterRegions extends ToolCommand[Args] {
     val cmdArgs = cmdArrayToArgs(args)
 
     logger.info("Start")
-    scatterRegions(cmdArgs.referenceFasta,
-                   cmdArgs.outputDir,
-                   cmdArgs.scatterSize,
-                   cmdArgs.inputRegions,
-                   cmdArgs.combineContigs,
-                   cmdArgs.maxContigsInScatterJob)
+    scatterRegions(
+      cmdArgs.referenceFasta,
+      cmdArgs.outputDir,
+      cmdArgs.scatterSize,
+      cmdArgs.inputRegions,
+      cmdArgs.combineContigs,
+      cmdArgs.maxContigsInScatterJob,
+      cmdArgs.bamFile
+    )
     logger.info("Done")
   }
 
@@ -55,7 +58,8 @@ object ScatterRegions extends ToolCommand[Args] {
                      scatterSize: Int,
                      bedFile: Option[File] = None,
                      combineContigs: Boolean = true,
-                     maxContigsInScatterJob: Option[Int] = None): Unit = {
+                     maxContigsInScatterJob: Option[Int] = None,
+                     bamFile: Option[File] = None): Unit = {
     val regions = bedFile match {
       case Some(file) =>
         BedRecordList
@@ -66,11 +70,16 @@ object ScatterRegions extends ToolCommand[Args] {
       case _ => BedRecordList.fromReference(referenceFasta)
     }
     val dict: SAMSequenceDictionary = fasta.getCachedDict(referenceFasta)
-    val scatters =
-      regions.scatter(scatterSize,
+    val scatters = bamFile match {
+      case Some(file) =>
+        bamScatter(file, regions, scatterSize, combineContigs, dict)
+      case _ =>
+        nonBamScatter(regions,
+                      scatterSize,
                       combineContigs,
                       maxContigsInScatterJob,
-                      Option(dict))
+                      dict)
+    }
 
     val futures = scatters.zipWithIndex.map {
       case (list, idx) =>
@@ -80,6 +89,30 @@ object ScatterRegions extends ToolCommand[Args] {
         }
     }
     Await.result(Future.sequence(futures), Duration.Inf)
+  }
+
+  def nonBamScatter(regions: BedRecordList,
+                    scatterSize: Int,
+                    combineContigs: Boolean,
+                    maxContigsInScatterJob: Option[Int],
+                    dict: SAMSequenceDictionary): List[List[BedRecord]] = {
+    regions.scatter(scatterSize,
+                    combineContigs,
+                    maxContigsInScatterJob,
+                    Option(dict))
+  }
+
+  def bamScatter(bamFile: File,
+                 regions: BedRecordList,
+                 scatterSize: Int,
+                 combineContigs: Boolean,
+                 dict: SAMSequenceDictionary): List[List[BedRecord]] = {
+    getDictFromBam(bamFile).assertSameDictionary(dict, true)
+
+    IndexScattering.createBamBins(regions.allRecords.toList,
+                                  bamFile,
+                                  (regions.length / scatterSize + 1).toInt,
+                                  combineContigs)
   }
 
   def descriptionText: String =

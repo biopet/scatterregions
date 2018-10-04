@@ -28,4 +28,5 @@ case class Args(outputDir: File = null,
                 scatterSize: Int = 1000000,
                 inputRegions: Option[File] = None,
                 combineContigs: Boolean = true,
-                maxContigsInScatterJob: Option[Int] = None)
+                maxContigsInScatterJob: Option[Int] = None,
+                bamFile: Option[File] = None)

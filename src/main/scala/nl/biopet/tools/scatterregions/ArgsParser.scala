@@ -49,4 +49,7 @@ class ArgsParser(toolCommand: ToolCommand[Args])
   opt[Int]("maxContigsInScatterJob")
     .action((x, c) => c.copy(maxContigsInScatterJob = Some(x)))
     .text("If set each scatter can only contain 1 contig")
+  opt[File]("bamFile")
+    .action((x, c) => c.copy(bamFile = Some(x)))
+    .text("When given the regions will be scattered based on number of reads in the index file")
 }

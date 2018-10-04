@@ -58,9 +58,11 @@ class ScatterRegionsTest extends ToolTest[Args] {
     outputDir.mkdir()
     ScatterRegions.main(
       Array("-R",
-        resourcePath("/fake_chrQ.fa"),
-        "-o",
-        outputDir.getAbsolutePath, "--bamFile", resourcePath("/paired01.bam")))
+            resourcePath("/fake_chrQ.fa"),
+            "-o",
+            outputDir.getAbsolutePath,
+            "--bamFile",
+            resourcePath("/paired01.bam")))
     val files = outputDir.list().map(new File(outputDir, _))
     files.length shouldBe 1
     files.map(BedRecordList.fromFile(_).length).sum shouldBe 16571

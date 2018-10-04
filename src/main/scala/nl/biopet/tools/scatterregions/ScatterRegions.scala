@@ -75,11 +75,7 @@ object ScatterRegions extends ToolCommand[Args] {
     }
     val scatters = bamFile match {
       case Some(file) =>
-        bamScatter(file,
-                   regions,
-                   scatterSize,
-                   combineContigs,
-                   dict)
+        bamScatter(file, regions, scatterSize, combineContigs, dict)
       case _ =>
         nonBamScatter(regions,
                       scatterSize,
@@ -119,7 +115,7 @@ object ScatterRegions extends ToolCommand[Args] {
     IndexScattering.createBamBins(regions.allRecords.toList,
                                   bamFile,
                                   (regions.length / scatterSize + 1).toInt,
-      combineContigs)
+                                  combineContigs)
   }
 
   def descriptionText: String =

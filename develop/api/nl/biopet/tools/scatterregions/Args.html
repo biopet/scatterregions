@@ -45,7 +45,7 @@
         <span class="kind">case class</span>
       </span>
       <span class="symbol">
-        <span class="name">Args</span><span class="params">(<span name="outputDir">outputDir: <span class="extype" name="java.io.File">File</span> = <span class="symbol">null</span></span>, <span name="referenceFasta">referenceFasta: <span class="extype" name="java.io.File">File</span> = <span class="symbol">null</span></span>, <span name="scatterSize">scatterSize: <span class="extype" name="scala.Int">Int</span> = <span class="symbol">1000000</span></span>, <span name="inputRegions">inputRegions: <span class="extype" name="scala.Option">Option</span>[<span class="extype" name="java.io.File">File</span>] = <span class="symbol">None</span></span>, <span name="combineContigs">combineContigs: <span class="extype" name="scala.Boolean">Boolean</span> = <span class="symbol">true</span></span>, <span name="maxContigsInScatterJob">maxContigsInScatterJob: <span class="extype" name="scala.Option">Option</span>[<span class="extype" name="scala.Int">Int</span>] = <span class="symbol">None</span></span>, <span name="bamFile">bamFile: <span class="extype" name="scala.Option">Option</span>[<span class="extype" name="java.io.File">File</span>] = <span class="symbol">None</span></span>)</span><span class="result"> extends <span class="extype" name="scala.Product">Product</span> with <span class="extype" name="scala.Serializable">Serializable</span></span>
+        <span class="name">Args</span><span class="params">(<span name="outputDir">outputDir: <span class="extype" name="java.io.File">File</span> = <span class="symbol">null</span></span>, <span name="referenceFasta">referenceFasta: <span class="extype" name="java.io.File">File</span> = <span class="symbol">null</span></span>, <span name="scatterSize">scatterSize: <span class="extype" name="scala.Int">Int</span> = <span class="symbol">1000000</span></span>, <span name="inputRegions">inputRegions: <span class="extype" name="scala.Option">Option</span>[<span class="extype" name="java.io.File">File</span>] = <span class="symbol">None</span></span>, <span name="combineContigs">combineContigs: <span class="extype" name="scala.Boolean">Boolean</span> = <span class="symbol">true</span></span>, <span name="splitContigs">splitContigs: <span class="extype" name="scala.Boolean">Boolean</span> = <span class="symbol">true</span></span>, <span name="maxContigsInScatterJob">maxContigsInScatterJob: <span class="extype" name="scala.Option">Option</span>[<span class="extype" name="scala.Int">Int</span>] = <span class="symbol">None</span></span>, <span name="bamFile">bamFile: <span class="extype" name="scala.Option">Option</span>[<span class="extype" name="java.io.File">File</span>] = <span class="symbol">None</span></span>)</span><span class="result"> extends <span class="extype" name="scala.Product">Product</span> with <span class="extype" name="scala.Serializable">Serializable</span></span>
       </span>
       </h4>
       
@@ -89,7 +89,7 @@
         <div id="constructors" class="members">
               <h3>Instance Constructors</h3>
               <ol><li name="nl.biopet.tools.scatterregions.Args#&lt;init&gt;" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="&lt;init&gt;(outputDir:java.io.File,referenceFasta:java.io.File,scatterSize:Int,inputRegions:Option[java.io.File],combineContigs:Boolean,maxContigsInScatterJob:Option[Int],bamFile:Option[java.io.File]):nl.biopet.tools.scatterregions.Args"></a>
+      <a id="&lt;init&gt;(outputDir:java.io.File,referenceFasta:java.io.File,scatterSize:Int,inputRegions:Option[java.io.File],combineContigs:Boolean,splitContigs:Boolean,maxContigsInScatterJob:Option[Int],bamFile:Option[java.io.File]):nl.biopet.tools.scatterregions.Args"></a>
       <a id="&lt;init&gt;:Args"></a>
       <h4 class="signature">
       <span class="modifier_kind">
@@ -97,10 +97,10 @@
         <span class="kind">new</span>
       </span>
       <span class="symbol">
-        <span class="name">Args</span><span class="params">(<span name="outputDir">outputDir: <span class="extype" name="java.io.File">File</span> = <span class="symbol">null</span></span>, <span name="referenceFasta">referenceFasta: <span class="extype" name="java.io.File">File</span> = <span class="symbol">null</span></span>, <span name="scatterSize">scatterSize: <span class="extype" name="scala.Int">Int</span> = <span class="symbol">1000000</span></span>, <span name="inputRegions">inputRegions: <span class="extype" name="scala.Option">Option</span>[<span class="extype" name="java.io.File">File</span>] = <span class="symbol">None</span></span>, <span name="combineContigs">combineContigs: <span class="extype" name="scala.Boolean">Boolean</span> = <span class="symbol">true</span></span>, <span name="maxContigsInScatterJob">maxContigsInScatterJob: <span class="extype" name="scala.Option">Option</span>[<span class="extype" name="scala.Int">Int</span>] = <span class="symbol">None</span></span>, <span name="bamFile">bamFile: <span class="extype" name="scala.Option">Option</span>[<span class="extype" name="java.io.File">File</span>] = <span class="symbol">None</span></span>)</span>
+        <span class="name">Args</span><span class="params">(<span name="outputDir">outputDir: <span class="extype" name="java.io.File">File</span> = <span class="symbol">null</span></span>, <span name="referenceFasta">referenceFasta: <span class="extype" name="java.io.File">File</span> = <span class="symbol">null</span></span>, <span name="scatterSize">scatterSize: <span class="extype" name="scala.Int">Int</span> = <span class="symbol">1000000</span></span>, <span name="inputRegions">inputRegions: <span class="extype" name="scala.Option">Option</span>[<span class="extype" name="java.io.File">File</span>] = <span class="symbol">None</span></span>, <span name="combineContigs">combineContigs: <span class="extype" name="scala.Boolean">Boolean</span> = <span class="symbol">true</span></span>, <span name="splitContigs">splitContigs: <span class="extype" name="scala.Boolean">Boolean</span> = <span class="symbol">true</span></span>, <span name="maxContigsInScatterJob">maxContigsInScatterJob: <span class="extype" name="scala.Option">Option</span>[<span class="extype" name="scala.Int">Int</span>] = <span class="symbol">None</span></span>, <span name="bamFile">bamFile: <span class="extype" name="scala.Option">Option</span>[<span class="extype" name="java.io.File">File</span>] = <span class="symbol">None</span></span>)</span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../index.html#nl.biopet.tools.scatterregions.Args@&lt;init&gt;(outputDir:java.io.File,referenceFasta:java.io.File,scatterSize:Int,inputRegions:Option[java.io.File],combineContigs:Boolean,maxContigsInScatterJob:Option[Int],bamFile:Option[java.io.File]):nl.biopet.tools.scatterregions.Args" title="Permalink" target="_top">
+      <a href="../../../../index.html#nl.biopet.tools.scatterregions.Args@&lt;init&gt;(outputDir:java.io.File,referenceFasta:java.io.File,scatterSize:Int,inputRegions:Option[java.io.File],combineContigs:Boolean,splitContigs:Boolean,maxContigsInScatterJob:Option[Int],bamFile:Option[java.io.File]):nl.biopet.tools.scatterregions.Args" title="Permalink" target="_top">
         <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -445,6 +445,23 @@
       </span>
       </h4><span class="permalink">
       <a href="../../../../index.html#nl.biopet.tools.scatterregions.Args@scatterSize:Int" title="Permalink" target="_top">
+        <img src="../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      
+    </li><li name="nl.biopet.tools.scatterregions.Args#splitContigs" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="splitContigs:Boolean"></a>
+      <a id="splitContigs:Boolean"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">splitContigs</span><span class="result">: <span class="extype" name="scala.Boolean">Boolean</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../index.html#nl.biopet.tools.scatterregions.Args@splitContigs:Boolean" title="Permalink" target="_top">
         <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>

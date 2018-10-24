@@ -196,23 +196,6 @@
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>Any</dd></dl></div>
-    </li><li name="nl.biopet.tools.scatterregions.ScatterRegions#bamScatter" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="bamScatter(bamFile:java.io.File,regions:nl.biopet.utils.ngs.intervals.BedRecordList,scatterSize:Int,combineContigs:Boolean,dict:htsjdk.samtools.SAMSequenceDictionary):List[List[nl.biopet.utils.ngs.intervals.BedRecord]]"></a>
-      <a id="bamScatter(File,BedRecordList,Int,Boolean,SAMSequenceDictionary):List[List[BedRecord]]"></a>
-      <h4 class="signature">
-      <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">def</span>
-      </span>
-      <span class="symbol">
-        <span class="name">bamScatter</span><span class="params">(<span name="bamFile">bamFile: <span class="extype" name="java.io.File">File</span></span>, <span name="regions">regions: <span class="extype" name="nl.biopet.utils.ngs.intervals.BedRecordList">BedRecordList</span></span>, <span name="scatterSize">scatterSize: <span class="extype" name="scala.Int">Int</span></span>, <span name="combineContigs">combineContigs: <span class="extype" name="scala.Boolean">Boolean</span></span>, <span name="dict">dict: <span class="extype" name="htsjdk.samtools.SAMSequenceDictionary">SAMSequenceDictionary</span></span>)</span><span class="result">: <span class="extype" name="scala.List">List</span>[<span class="extype" name="scala.List">List</span>[<span class="extype" name="nl.biopet.utils.ngs.intervals.BedRecord">BedRecord</span>]]</span>
-      </span>
-      </h4><span class="permalink">
-      <a href="../../../../index.html#nl.biopet.tools.scatterregions.ScatterRegions$@bamScatter(bamFile:java.io.File,regions:nl.biopet.utils.ngs.intervals.BedRecordList,scatterSize:Int,combineContigs:Boolean,dict:htsjdk.samtools.SAMSequenceDictionary):List[List[nl.biopet.utils.ngs.intervals.BedRecord]]" title="Permalink" target="_top">
-        <img src="../../../../lib/permalink.png" alt="Permalink" />
-      </a>
-    </span>
-      
     </li><li name="scala.AnyRef#clone" visbl="prt" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="clone():Object"></a>
       <a id="clone():AnyRef"></a>
@@ -616,23 +599,6 @@
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd></dl></div>
-    </li><li name="nl.biopet.tools.scatterregions.ScatterRegions#nonBamScatter" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="nonBamScatter(regions:nl.biopet.utils.ngs.intervals.BedRecordList,scatterSize:Int,combineContigs:Boolean,maxContigsInScatterJob:Option[Int],dict:htsjdk.samtools.SAMSequenceDictionary):List[List[nl.biopet.utils.ngs.intervals.BedRecord]]"></a>
-      <a id="nonBamScatter(BedRecordList,Int,Boolean,Option[Int],SAMSequenceDictionary):List[List[BedRecord]]"></a>
-      <h4 class="signature">
-      <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">def</span>
-      </span>
-      <span class="symbol">
-        <span class="name">nonBamScatter</span><span class="params">(<span name="regions">regions: <span class="extype" name="nl.biopet.utils.ngs.intervals.BedRecordList">BedRecordList</span></span>, <span name="scatterSize">scatterSize: <span class="extype" name="scala.Int">Int</span></span>, <span name="combineContigs">combineContigs: <span class="extype" name="scala.Boolean">Boolean</span></span>, <span name="maxContigsInScatterJob">maxContigsInScatterJob: <span class="extype" name="scala.Option">Option</span>[<span class="extype" name="scala.Int">Int</span>]</span>, <span name="dict">dict: <span class="extype" name="htsjdk.samtools.SAMSequenceDictionary">SAMSequenceDictionary</span></span>)</span><span class="result">: <span class="extype" name="scala.List">List</span>[<span class="extype" name="scala.List">List</span>[<span class="extype" name="nl.biopet.utils.ngs.intervals.BedRecord">BedRecord</span>]]</span>
-      </span>
-      </h4><span class="permalink">
-      <a href="../../../../index.html#nl.biopet.tools.scatterregions.ScatterRegions$@nonBamScatter(regions:nl.biopet.utils.ngs.intervals.BedRecordList,scatterSize:Int,combineContigs:Boolean,maxContigsInScatterJob:Option[Int],dict:htsjdk.samtools.SAMSequenceDictionary):List[List[nl.biopet.utils.ngs.intervals.BedRecord]]" title="Permalink" target="_top">
-        <img src="../../../../lib/permalink.png" alt="Permalink" />
-      </a>
-    </span>
-      
     </li><li name="scala.AnyRef#notify" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="notify():Unit"></a>
       <a id="notify():Unit"></a>
@@ -685,18 +651,18 @@
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>ToolCommand</dd></dl></div>
     </li><li name="nl.biopet.tools.scatterregions.ScatterRegions#scatterRegions" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="scatterRegions(referenceFasta:java.io.File,outputDir:java.io.File,scatterSize:Int,bedFile:Option[java.io.File],combineContigs:Boolean,maxContigsInScatterJob:Option[Int],bamFile:Option[java.io.File]):Unit"></a>
-      <a id="scatterRegions(File,File,Int,Option[File],Boolean,Option[Int],Option[File]):Unit"></a>
+      <a id="scatterRegions(referenceFasta:java.io.File,outputDir:java.io.File,scatterSize:Int,bedFile:Option[java.io.File],combineContigs:Boolean,splitContigs:Boolean,maxContigsInScatterJob:Option[Int],bamFile:Option[java.io.File]):Unit"></a>
+      <a id="scatterRegions(File,File,Int,Option[File],Boolean,Boolean,Option[Int],Option[File]):Unit"></a>
       <h4 class="signature">
       <span class="modifier_kind">
         <span class="modifier"></span>
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">scatterRegions</span><span class="params">(<span name="referenceFasta">referenceFasta: <span class="extype" name="java.io.File">File</span></span>, <span name="outputDir">outputDir: <span class="extype" name="java.io.File">File</span></span>, <span name="scatterSize">scatterSize: <span class="extype" name="scala.Int">Int</span></span>, <span name="bedFile">bedFile: <span class="extype" name="scala.Option">Option</span>[<span class="extype" name="java.io.File">File</span>] = <span class="symbol">None</span></span>, <span name="combineContigs">combineContigs: <span class="extype" name="scala.Boolean">Boolean</span> = <span class="symbol">true</span></span>, <span name="maxContigsInScatterJob">maxContigsInScatterJob: <span class="extype" name="scala.Option">Option</span>[<span class="extype" name="scala.Int">Int</span>] = <span class="symbol">None</span></span>, <span name="bamFile">bamFile: <span class="extype" name="scala.Option">Option</span>[<span class="extype" name="java.io.File">File</span>] = <span class="symbol">None</span></span>)</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
+        <span class="name">scatterRegions</span><span class="params">(<span name="referenceFasta">referenceFasta: <span class="extype" name="java.io.File">File</span></span>, <span name="outputDir">outputDir: <span class="extype" name="java.io.File">File</span></span>, <span name="scatterSize">scatterSize: <span class="extype" name="scala.Int">Int</span></span>, <span name="bedFile">bedFile: <span class="extype" name="scala.Option">Option</span>[<span class="extype" name="java.io.File">File</span>] = <span class="symbol">None</span></span>, <span name="combineContigs">combineContigs: <span class="extype" name="scala.Boolean">Boolean</span> = <span class="symbol">true</span></span>, <span name="splitContigs">splitContigs: <span class="extype" name="scala.Boolean">Boolean</span> = <span class="symbol">true</span></span>, <span name="maxContigsInScatterJob">maxContigsInScatterJob: <span class="extype" name="scala.Option">Option</span>[<span class="extype" name="scala.Int">Int</span>] = <span class="symbol">None</span></span>, <span name="bamFile">bamFile: <span class="extype" name="scala.Option">Option</span>[<span class="extype" name="java.io.File">File</span>] = <span class="symbol">None</span></span>)</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../index.html#nl.biopet.tools.scatterregions.ScatterRegions$@scatterRegions(referenceFasta:java.io.File,outputDir:java.io.File,scatterSize:Int,bedFile:Option[java.io.File],combineContigs:Boolean,maxContigsInScatterJob:Option[Int],bamFile:Option[java.io.File]):Unit" title="Permalink" target="_top">
+      <a href="../../../../index.html#nl.biopet.tools.scatterregions.ScatterRegions$@scatterRegions(referenceFasta:java.io.File,outputDir:java.io.File,scatterSize:Int,bedFile:Option[java.io.File],combineContigs:Boolean,splitContigs:Boolean,maxContigsInScatterJob:Option[Int],bamFile:Option[java.io.File]):Unit" title="Permalink" target="_top">
         <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>

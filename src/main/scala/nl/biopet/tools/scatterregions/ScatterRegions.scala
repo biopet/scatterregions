@@ -47,6 +47,7 @@ object ScatterRegions extends ToolCommand[Args] {
       cmdArgs.scatterSize,
       cmdArgs.inputRegions,
       cmdArgs.combineContigs,
+      cmdArgs.splitContigs,
       cmdArgs.maxContigsInScatterJob,
       cmdArgs.bamFile
     )
@@ -58,6 +59,7 @@ object ScatterRegions extends ToolCommand[Args] {
                      scatterSize: Int,
                      bedFile: Option[File] = None,
                      combineContigs: Boolean = true,
+                     splitContigs: Boolean = true,
                      maxContigsInScatterJob: Option[Int] = None,
                      bamFile: Option[File] = None): Unit = {
     val regions = bedFile match {
@@ -72,13 +74,19 @@ object ScatterRegions extends ToolCommand[Args] {
     val dict: SAMSequenceDictionary = fasta.getCachedDict(referenceFasta)
     val scatters = bamFile match {
       case Some(file) =>
-        bamScatter(file, regions, scatterSize, combineContigs, dict)
+        getDictFromBam(file).assertSameDictionary(dict, true)
+
+        IndexScattering.createBamBins(regions.allRecords.toList,
+                                      file,
+                                      (regions.length / scatterSize + 1).toInt,
+                                      combineContigs,
+                                      splitContigs)
       case _ =>
-        nonBamScatter(regions,
-                      scatterSize,
-                      combineContigs,
-                      maxContigsInScatterJob,
-                      dict)
+        regions.scatter(scatterSize,
+                        combineContigs,
+                        splitContigs,
+                        maxContigsInScatterJob,
+                        Some(dict))
     }
 
     val futures = scatters.zipWithIndex.map {
@@ -89,30 +97,6 @@ object ScatterRegions extends ToolCommand[Args] {
         }
     }
     Await.result(Future.sequence(futures), Duration.Inf)
-  }
-
-  def nonBamScatter(regions: BedRecordList,
-                    scatterSize: Int,
-                    combineContigs: Boolean,
-                    maxContigsInScatterJob: Option[Int],
-                    dict: SAMSequenceDictionary): List[List[BedRecord]] = {
-    regions.scatter(scatterSize,
-                    combineContigs,
-                    maxContigsInScatterJob,
-                    Option(dict))
-  }
-
-  def bamScatter(bamFile: File,
-                 regions: BedRecordList,
-                 scatterSize: Int,
-                 combineContigs: Boolean,
-                 dict: SAMSequenceDictionary): List[List[BedRecord]] = {
-    getDictFromBam(bamFile).assertSameDictionary(dict, true)
-
-    IndexScattering.createBamBins(regions.allRecords.toList,
-                                  bamFile,
-                                  (regions.length / scatterSize + 1).toInt,
-                                  combineContigs)
   }
 
   def descriptionText: String =

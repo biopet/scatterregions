@@ -86,6 +86,24 @@ class ScatterRegionsTest extends ToolTest[Args] {
   }
 
   @Test
+  def testScatterSizeNoSplit(): Unit = {
+    val outputDir = File.createTempFile("scatter.", ".test")
+    outputDir.delete()
+    outputDir.mkdir()
+    ScatterRegions.main(
+      Array("-R",
+            resourcePath("/fake_chrQ.fa"),
+            "-o",
+            outputDir.getAbsolutePath,
+            "-s",
+            "1000",
+            "--notSplitContigs"))
+    val files = outputDir.list().map(new File(outputDir, _))
+    files.length shouldBe 1
+    files.map(BedRecordList.fromFile(_).length).sum shouldBe 16571
+  }
+
+  @Test
   def testRegionsScatterSize(): Unit = {
     val bedFile = File.createTempFile("test.", ".bed")
     bedFile.deleteOnExit()

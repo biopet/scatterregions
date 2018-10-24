@@ -52,4 +52,7 @@ class ArgsParser(toolCommand: ToolCommand[Args])
   opt[File]("bamFile")
     .action((x, c) => c.copy(bamFile = Some(x)))
     .text("When given the regions will be scattered based on number of reads in the index file")
+  opt[Unit]("notSplitContigs")
+    .action((_, c) => c.copy(splitContigs = false))
+    .text("When this option is set contigs are not split.")
 }
